@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000" # Run server port
+      - "5858:5858" # Debug port
+    restart: always
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=db_nestjs-ms
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
